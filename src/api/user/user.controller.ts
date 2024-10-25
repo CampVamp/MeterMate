@@ -1,11 +1,17 @@
 import { Request, Response } from "express";
 import {
+  handleGetAllUsers,
   handleCreateUser,
   handleGetUserById,
   handleUpdateUser,
   handleDeleteUser,
   handleUserLogin,
 } from "./user.service";
+
+export const getAllUsers = async (req: Request, res: Response) => {
+  const data = await handleGetAllUsers();
+  res.status(data.success ? 200 : 404).send(data);
+};
 
 export const createUser = async (req: Request, res: Response) => {
   const data = await handleCreateUser(req.body);

@@ -5,7 +5,8 @@ export const authenticateJWT = (req: any, res: any, next: NextFunction) => {
   const token = req.header("Authorization")?.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({ message: "Access Denied" });
+    res.status(401).json({ message: "Access Denied" });
+    return;
   }
 
   try {

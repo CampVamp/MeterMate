@@ -4,6 +4,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
+export const handleGetAllUsers = async () => {
+  const collection = db.collection("users");
+  const users = await collection.find().toArray();
+  return users ? { success: true, users } : { success: false };
+};
+
 export const handleCreateUser = async (user: any) => {
   const collection = db.collection("users");
 
