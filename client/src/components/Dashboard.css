@@ -1,0 +1,117 @@
+.dashboard-page {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  color: black;
+}
+
+.frequency-buttons {
+  margin-top: 10px;
+  margin-left: 50px;
+  display: inline-flex;
+  margin-top: 10px;
+}
+
+.frequency-btn {
+  /* margin: 0 px; */
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: 1px solid black;
+  cursor: pointer;
+  color: black;
+  border-radius: 0px;
+}
+.frequency-btn:first-child {
+  border-radius: 8px 0 0 8px;
+}
+.frequency-btn:last-child {
+  border-right: 1px solid black;
+  border-radius: 0 8px 8px 0;
+}
+
+.consumption-summary {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  margin-left: 140px;
+  gap: 40px;
+}
+
+.consumption-card {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 8px;
+  width: 150px;
+  text-align: center;
+  color: black;
+}
+
+.chart {
+  margin-top: 30px;
+  text-align: center;
+  color: white;
+}
+
+.chart-placeholder {
+  width: 400px;
+  height: 400px;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  margin-left: 200px;
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: 1px solid black;
+  cursor: pointer;
+  color: black;
+  border-radius: 8px;
+}
+
+.payment-record {
+  margin-top: 40px;
+  color: black;
+  position: absolute;
+  bottom: 450px; /* Distance from the bottom of the page */
+  right: 110px; /* Distance from the right side of the page */
+  width: 30%; /* Adjust width based on your design */
+  min-height: 200px;
+  bottom: 250px;
+  background-color: white; /* Optional: Add background color */
+  padding: 10px; /* Optional: Add padding */
+  border: 1px solid black; /* Optional: Add border */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0px 30px;
+}
+.payment-item {
+  display: flex;
+  justify-content: space-between; /* Distributes space between the two spans */
+  margin-bottom: 40px; /* Adds space between each record */
+}
+.month {
+  font-weight: bold;
+}
+
+.amount {
+  text-align: right;
+}
+
+.payment-record ul {
+  list-style: none;
+  padding: 0;
+}
+
+.payment-record li {
+  margin-bottom: 8px;
+  margin-top: 30px;
+}
+.payment-record h3 {
+  margin-bottom: 30px;
+}

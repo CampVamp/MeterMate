@@ -1,0 +1,32 @@
+/* Sidebar.css */
+.sidebar {
+  width: 300px;
+  background-color: gold;
+  height: 100vh;
+  padding: 20px;
+  text-align: center;
+}
+
+.sidebar h2 {
+  margin-bottom: 150px;
+  color: black;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 50px 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: black;
+  font-size: 23px;
+}
+.sidebar a:hover {
+  color: white; /* Change color on hover */
+  font-weight: bold; /* Make it bold */
+}
