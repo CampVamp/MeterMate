@@ -1,0 +1,89 @@
+/* Sidebar styles */
+
+/* Main content area next to the sidebar */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Align content vertically if needed */
+  background-color: #f9f9f9; /* Light background */
+  height: 100vh; /* Full viewport height */
+  flex-grow: 1; /* Allow container to grow and fill remaining space */
+  /* Sidebar's width */
+  padding: 0; /* Remove extra padding */
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+  width: calc(100vw - 300px); /* Take the full remaining width */
+  transition: background-color 0.3s ease;
+}
+
+/* Profile box styling */
+.profile-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Take full width within the container */
+  height: 100%; /* Stretch the box to fill the container height */
+  text-align: center;
+  position: relative;
+}
+
+/* Header section */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-header h2 {
+  font-size: 24px;
+  margin: 0;
+  color: black;
+}
+
+.edit-btn {
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+/* Profile picture placeholder */
+.profile-picture {
+  height: 80px;
+  width: 80px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  margin: 20px auto;
+}
+
+/* Profile details styling */
+.profile-info h3 {
+  font-size: 22px;
+  margin-bottom: 5px;
+  color: black;
+}
+
+.profile-id {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.profile-details p {
+  font-size: 16px;
+  text-align: left;
+  margin: 16px 0;
+  color: black;
+}
+
+/* Horizontal line */
+hr {
+  margin: 20px 0;
+  border: 0;
+  height: 1px;
+  background-color: #ddd;
+}
+.edit-btn:hover {
+  background-color: #f0f4f8; /* Subtle background on hover */
+  color: #0056b3; /* Darker text color on hover */
+}
