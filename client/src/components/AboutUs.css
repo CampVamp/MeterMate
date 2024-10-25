@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: white;
+}
+
+.about-container {
+  padding: 40px;
+  width: calc(100vw - 300px);
+  margin: 10px auto;
+  background-color: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  color: black;
+  height: 100vh;
+}
+
+.about-container h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  border-bottom: 2px solid black;
+  display: inline-block;
+}
+
+.about-container p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.about-container p:before {
+  content: "•"; /* Add bullet icon */
+  color: black;
+  margin-right: 10px;
+  font-size: 20px;
+}
