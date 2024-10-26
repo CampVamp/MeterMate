@@ -4,7 +4,7 @@ import { authenticateJWT } from "../../middlewares/auth.middleware";
 
 const router = Router();
 
-router.get("/", authenticateJWT, getAllUserLogs);
-router.post("/", authenticateJWT, createLog);
+router.get("/", getAllUserLogs);
+router.post("/", createLog);
 
 export default router;
