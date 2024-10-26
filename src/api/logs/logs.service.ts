@@ -9,7 +9,11 @@ export const handleGetAllUserLogs = async () => {
 
 export const handleCreateLog = async (logData: { reading: any }) => {
   const collection = db.collection("logs");
-  const data = { ...logData, createdAt: new Date() };
+  const data = {
+    ...logData,
+    userId: "66f780b5ffa64634badee69b",
+    createdAt: new Date(),
+  };
   const result = await collection.insertOne(data);
   return result ? { success: true } : { success: false };
 };
