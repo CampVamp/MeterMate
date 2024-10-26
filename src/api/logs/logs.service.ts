@@ -7,7 +7,7 @@ export const handleGetAllUserLogs = async () => {
   return logs ? { success: true, logs } : { success: false };
 };
 
-export const handleCreateLog = async (logData: { reading: any }) => {
+export const handleCreateLog = async (logData: any) => {
   const collection = db.collection("logs");
   const data = {
     ...logData,
