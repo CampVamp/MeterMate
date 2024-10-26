@@ -6,3 +6,5 @@ const router = Router();
 
 router.get("/", authenticateJWT, getAllUserLogs);
 router.post("/", authenticateJWT, createLog);
+
+export default router;
