@@ -5,6 +5,7 @@ import Profile from "./components/Profile";
 import Dashboard from "./components/Dashboard";
 import Billing from "./components/Billing";
 import AboutUs from "./components/AboutUs";
+import Login from "./components/Login";
 import "./App.css";
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
         <div className="main-content">
           <Routes>
             <Route path="/profile" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/billing" element={<Billing />} />
             <Route path="/about-us" element={<AboutUs />} />
           </Routes>
