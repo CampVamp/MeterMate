@@ -56,10 +56,22 @@ export const handleUserLogin = async (email: string, password: string) => {
   }
 
   const token = jwt.sign(
-    { userId: user._id, email: user.email },
+    { id: user._id, email: user.email },
     process.env.JWT_SECRET as string,
     { expiresIn: "1h" }
   );
 
   return { success: true, token, userId: user._id };
+};
+
+export const handleUpdateMeterStatus = async (
+  userId: string,
+  meterStatus: "ACTIVE" | "INACTIVE"
+) => {
+  const collection = db.collection("users");
+  const result = await collection.updateOne(
+    { _id: new ObjectId(userId) },
+    { $set: { meterStatus } }
+  );
+  return result.modifiedCount > 0 ? { success: true } : { success: false };
 };
