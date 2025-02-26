@@ -6,6 +6,7 @@ import router from "./api";
 import { createServer } from "http";
 import "dotenv/config";
 import { WebSocketServer } from "ws";
+import { setupWebSocket } from "./sockets/socket.server";
 
 const app = express();
 const server = createServer(app); // Create the HTTP server
@@ -18,52 +19,17 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan(morganFormat));
 app.use(express.json());
+
+// Routes
 app.use("/api", router);
 
-// Optional: Add a default route for HTTP requests
+// Default route
 app.get("/", (req: Request, res: Response) => {
   res.send("MeterMate API is running!");
 });
 
-// Handle WebSocket connections
-wss.on("connection", (ws) => {
-  console.log("New WebSocket connection established");
-
-  ws.on("message", (message) => {
-      console.log("Received:", message.toString());
-
-      try {
-          const data = JSON.parse(message.toString());
-          console.log("Parsed data:", data);
-
-          // Example: Log the sensor value
-          if (data.sensor === "temperature") {
-              console.log(`Temperature: ${data.value} ${data.unit}`);
-          }
-
-          // Send acknowledgment to the client
-          ws.send(JSON.stringify({ status: "success", received: data }));
-      } catch (err) {
-          console.error("Failed to parse message:", err);
-          ws.send(JSON.stringify({ status: "error", error: "Invalid JSON" }));
-      }
-  });
-
-  ws.on("close", () => {
-      console.log("WebSocket connection closed");
-  });
-
-  ws.on("error", (err) => {
-      console.error("WebSocket error:", err);
-  });
-});
-
-// Integrate WebSocket server with HTTP server
-server.on("upgrade", (request, socket, head) => {
-  wss.handleUpgrade(request, socket, head, (ws) => {
-    wss.emit("connection", ws, request);
-  });
-});
+// Setup WebSocket
+setupWebSocket(server, wss);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
