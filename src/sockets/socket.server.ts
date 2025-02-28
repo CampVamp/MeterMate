@@ -1,10 +1,27 @@
 import { WebSocketServer, WebSocket } from "ws";
 import { Server } from "http";
+import { handleCreateLog } from "../api/logs/logs.service";
 
 // Store connected WebSocket clients
 const clients = new Set<WebSocket>();
 
 export const setupWebSocket = (server: Server, wss: WebSocketServer) => {
+  let latestData: any = null;
+
+  // Every 5 mins, create a new log with the latest data
+  setInterval(async () => {
+    if (latestData) {
+      try {
+        const result = await handleCreateLog(latestData);
+        console.log("Saved log:", result);
+
+        latestData = null;
+      } catch (error) {
+        console.error("Error saving log:", error);
+      }
+    }
+  }, 5 * 60 * 1000);
+
   server.on("upgrade", (request, socket, head) => {
     wss.handleUpgrade(request, socket, head, (ws) => {
       wss.emit("connection", ws, request);
@@ -24,6 +41,8 @@ export const setupWebSocket = (server: Server, wss: WebSocketServer) => {
 
         // Send acknowledgment to the client
         ws.send(JSON.stringify({ status: "success", received: data }));
+
+        latestData = data;
 
         // Send data to all clients
         clients.forEach((client) => {

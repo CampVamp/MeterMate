@@ -11,7 +11,7 @@ export const handleCreateLog = async (logData: any) => {
   const collection = db.collection("logs");
   const data = {
     ...logData,
-    userId: "66f780b5ffa64634badee69b",
+    userId: "67bf69f73c7007235be6205f",
     createdAt: new Date(),
   };
   const result = await collection.insertOne(data);
