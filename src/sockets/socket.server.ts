@@ -18,16 +18,9 @@ export const setupWebSocket = (server: Server, wss: WebSocketServer) => {
     clients.add(ws);
 
     ws.on("message", (message) => {
-      console.log("Received:", message.toString());
-
       try {
         const data = JSON.parse(message.toString());
         console.log("Parsed data:", data);
-
-        // Example: Log the sensor value
-        if (data.sensor === "temperature") {
-          console.log(`Temperature: ${data.value} ${data.unit}`);
-        }
 
         // Send acknowledgment to the client
         ws.send(JSON.stringify({ status: "success", received: data }));
