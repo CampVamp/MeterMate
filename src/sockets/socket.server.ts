@@ -1,6 +1,7 @@
 import { WebSocketServer, WebSocket } from "ws";
 import { Server } from "http";
 import { handleCreateLog } from "../api/logs/logs.service";
+import { calculateBillFromUnitsConsumed } from "../config/utlis";
 
 // Store connected WebSocket clients
 const clients = new Set<WebSocket>();
@@ -47,6 +48,7 @@ export const setupWebSocket = (server: Server, wss: WebSocketServer) => {
         // Send data to all clients
         clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
+            data.totalCost = calculateBillFromUnitsConsumed(data.unitsConsumed);
             client.send(JSON.stringify({ broadcast: data }));
           }
         });

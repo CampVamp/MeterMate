@@ -23,7 +23,7 @@ export const WebSocketProvider = ({
     const connect = () => {
       if (socket) return; // Prevent multiple connections
 
-      ws = new WebSocket("ws://localhost:5000");
+      ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL}`);
 
       ws.onopen = () => {
         console.log("WebSocket connected");
@@ -32,8 +32,8 @@ export const WebSocketProvider = ({
 
       ws.onmessage = (event) => {
         try {
-          const message = JSON.parse(event.data);
-          setData(message);
+          const { broadcast } = JSON.parse(event.data);
+          setData(broadcast);
         } catch (error) {
           console.error("Invalid WebSocket data:", error);
         }
