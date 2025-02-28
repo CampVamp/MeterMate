@@ -11,9 +11,9 @@ import { authenticateJWT } from "../../middlewares/auth.middleware";
 const router = Router();
 
 router.post("/create", createUser);
-router.get("/:userId", authenticateJWT, getUserById);
-router.put("/:userId", authenticateJWT, updateUser);
-router.delete("/:userId", deleteUser);
+router.get("/", authenticateJWT, getUserById);
+router.put("/", authenticateJWT, updateUser);
+router.delete("/", deleteUser);
 router.post("/login", loginUser);
 
 export default router;

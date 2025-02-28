@@ -31,6 +31,13 @@ export const setupWebSocket = (server: Server, wss: WebSocketServer) => {
 
         // Send acknowledgment to the client
         ws.send(JSON.stringify({ status: "success", received: data }));
+
+        // Send data to all clients
+        clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ broadcast: data }));
+          }
+        });
       } catch (err) {
         console.error("Failed to parse message:", err);
         ws.send(JSON.stringify({ status: "error", error: "Invalid JSON" }));

@@ -68,7 +68,6 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
             break;
         case WStype_TEXT:
             Serial.printf("Received: %s\n", payload);
-            handleWebSocketMessage((char*)payload);
             break;
         case WStype_ERROR:
             Serial.println("WebSocket Error Occurred");
@@ -85,28 +84,6 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
         default:
             Serial.printf("Unknown WebSocket event type: %d\n", type);
             break;
-    }
-}
-
-void handleWebSocketMessage(char* message) {
-    // Parse the incoming message
-    StaticJsonDocument<200> doc;
-    DeserializationError error = deserializeJson(doc, message);
-
-    if (error) {
-        Serial.print("deserializeJson() failed: ");
-        Serial.println(error.c_str());
-        return;
-    }
-
-    // Extract the command
-    const char* command = doc["command"];
-
-    // Forward the command to the Arduino
-    if (strcmp(command, "relay_on") == 0) {
-        Serial.println("A");  // Send 'A' to turn relay ON
-    } else if (strcmp(command, "relay_off") == 0) {
-        Serial.println("B");  // Send 'B' to turn relay OFF
     }
 }
 

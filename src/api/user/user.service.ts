@@ -15,6 +15,9 @@ export const handleCreateUser = async (user: any) => {
 
   const hashedPassword = await bcrypt.hash(user.password, 10);
   user.password = hashedPassword;
+  user.lastLoginAt = new Date();
+  user.createdAt = new Date();
+  user.updatedAt = new Date();
 
   const result = await collection.insertOne(user);
   return result ? { success: true, user } : { success: false };
@@ -30,7 +33,12 @@ export const handleUpdateUser = async (userId: string, updateData: any) => {
   const collection = db.collection("users");
   const result = await collection.updateOne(
     { _id: new ObjectId(userId) },
-    { $set: updateData }
+    {
+      $set: {
+        ...updateData,
+        updatedAt: new Date(),
+      },
+    }
   );
   return result.modifiedCount > 0 ? { success: true } : { success: false };
 };
@@ -59,6 +67,11 @@ export const handleUserLogin = async (email: string, password: string) => {
     { id: user._id, email: user.email },
     process.env.JWT_SECRET as string,
     { expiresIn: "1h" }
+  );
+
+  await collection.updateOne(
+    { _id: new ObjectId(user._id) },
+    { $set: { lastLoginAt: new Date() } }
   );
 
   return { success: true, token, userId: user._id };
