@@ -1,13 +1,7 @@
-import type { Metadata } from "next";
 import { openSans } from "@/lib/utils";
-import "./globals.css";
+import "../globals.css";
 
-export const metadata: Metadata = {
-  title: "MeterMate",
-  description: "Monitor your energy consumption",
-};
-
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

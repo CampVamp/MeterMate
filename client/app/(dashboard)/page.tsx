@@ -1,23 +1,21 @@
 "use client";
-import { useWebSocketContext } from "./contexts/WebSocketContext";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useWebSocketContext } from "../contexts/WebSocketContext";
 import { sourGummy } from "@/lib/utils";
 
 const EnergyMonitor = () => {
   const { data } = useWebSocketContext();
+  const router = useRouter();
 
-  if (data) {
-    console.log(data);
-  }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+    }
+  }, [router]);
 
   return (
-    // <div>
-    //   <h1>Energy Data</h1>
-    //   {data ? (
-    //     <pre>{JSON.stringify(data, null, 2)}</pre>
-    //   ) : (
-    //     <p>Waiting for data...</p>
-    //   )}
-    // </div>
     <div className="text-[#121212] w-full h-full flex flex-col py-8">
       <div
         className={`flex items-center justify-between text-5xl font-medium pr-6 ${sourGummy.className}`}
@@ -27,15 +25,17 @@ const EnergyMonitor = () => {
       </div>
       {data ? (
         <div className="flex w-full gap-4 pr-6 mt-8">
-          <div className="w-1/4 h-56 bg-[#F6D868] rounded-lg flex items-center justify-center shadow-xl">
-            <div className="flex items-end gap-2">
+          <div className="w-1/4 h-56 bg-[#F6D868] rounded-lg flex flex-col p-6 shadow-xl">
+            <div className="font-medium text-xl">Units Consumed:</div>
+            <div className="w-full h-full flex justify-center items-center gap-2">
               <div className="text-6xl font-bold">{data.unitsConsumed}</div>
               <div className="text-2xl">kwh</div>
             </div>
           </div>
-          <div className="w-1/4 h-56 bg-[#F5B8DA] rounded-lg flex items-center justify-center shadow-xl">
-            <div className="flex items-end gap-2">
-              <div className="text-8xl font-bold">12</div>
+          <div className="w-1/4 h-56 bg-[#F5B8DA] rounded-lg flex flex-col p-6 shadow-xl">
+            <div className="font-medium text-xl">Total Cost:</div>
+            <div className="w-full h-full flex justify-center items-center gap-2">
+              <div className="text-7xl font-bold">{data.totalCost}</div>
               <div className="text-2xl">₹</div>
             </div>
           </div>
