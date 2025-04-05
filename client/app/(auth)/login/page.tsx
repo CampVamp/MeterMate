@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -36,7 +37,8 @@ const Login = () => {
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <div className="h-4/5 w-2/6 border-2 border-[#121212] rounded-xl p-6 flex flex-col items-center">
-        <div className="font-bold text-3xl mb-6">MeterMate</div>
+        <div className="font-bold text-3xl self-start mb-6">MeterMate</div>
+        <Image src="/login.png" alt="Login" width={300} height={400} />
         <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
             type="email"
