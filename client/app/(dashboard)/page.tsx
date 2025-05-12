@@ -1,14 +1,51 @@
 "use client";
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useWebSocketContext } from "../contexts/WebSocketContext";
-import { sourGummy } from "@/lib/utils";
 import Chart from "@/components/dashboard/Chart";
 import StatusIndicator from "@/components/dashboard/StatusIndicator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+const calculateBillFromUnitsConsumed = (units: number) => {
+  let bill = 0;
+  const tiers =
+    units <= 500
+      ? [
+          { limit: 100, rate: 0 },
+          { limit: 200, rate: 2.35 },
+          { limit: 400, rate: 4.7 },
+          { limit: 500, rate: 6.3 },
+        ]
+      : [
+          { limit: 100, rate: 0 },
+          { limit: 400, rate: 4.7 },
+          { limit: 500, rate: 6.3 },
+          { limit: 600, rate: 8.4 },
+          { limit: 800, rate: 9.45 },
+          { limit: 1000, rate: 10.5 },
+          { limit: 9999999, rate: 11.55 },
+        ];
+
+  let previousLimit = 0;
+  for (const tier of tiers) {
+    if (units > previousLimit) {
+      const applicableUnits = Math.min(units, tier.limit) - previousLimit;
+      bill += applicableUnits * tier.rate;
+      previousLimit = tier.limit;
+    } else {
+      break;
+    }
+  }
+
+  return bill;
+};
 
 const EnergyMonitor = () => {
   const { data, isConnected } = useWebSocketContext();
   const router = useRouter();
+
+  const [unitsConsumed, setUnitsConsumed] = useState<number>(242);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,48 +54,52 @@ const EnergyMonitor = () => {
     }
   }, [router]);
 
+  useEffect(() => {
+    if (isConnected && data) {
+      // Only update when meter is connected
+      setUnitsConsumed((prev) => prev + (data.unitsConsumed ?? 0));
+    }
+  }, [data, isConnected]);
+
+  const user = {
+    name: "Ajay Ram",
+    email: "ajayramsaravanan4@gmail.com",
+    profilePic: "https://api.dicebear.com/7.x/initials/svg?seed=Ajay+Ram",
+  };
+
   return (
     <div className="text-[#121212] w-full h-full flex flex-col py-8">
-      <div
-        className={`flex items-center justify-between text-5xl font-medium pr-6`}
-      >
+      <div className="flex items-center justify-between text-5xl font-medium pr-6">
         <StatusIndicator isConnected={isConnected} />
-        <div className="w-10 h-10 bg-stone-500 rounded-full"></div>
+        <Avatar
+          className="w-12 h-12 cursor-pointer"
+          onClick={() => router.push("/profile")}
+        >
+          <AvatarImage src={user.profilePic} alt={user.name} />
+          <AvatarFallback>
+            {user.name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
       </div>
-      {/* {data ? (
-        <div className="flex w-full gap-4 pr-6 mt-8">
-          <div className="w-1/4 h-56 bg-[#F6D868] rounded-lg flex flex-col p-6 shadow-xl">
-            <div className="font-medium text-xl">Units Consumed:</div>
-            <div className="w-full h-full flex justify-center items-center gap-2">
-              <div className="text-6xl font-bold">{data.unitsConsumed}</div>
-              <div className="text-2xl">kwh</div>
-            </div>
-          </div>
-          <div className="w-1/4 h-56 bg-[#F5B8DA] rounded-lg flex flex-col p-6 shadow-xl">
-            <div className="font-medium text-xl">Total Cost:</div>
-            <div className="w-full h-full flex justify-center items-center gap-2">
-              <div className="text-7xl font-bold">{data.totalCost}</div>
-              <div className="text-2xl">₹</div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="w-full h-full flex items-center justify-center font-semibold text-3xl">
-          Connecting...
-        </div>
-      )} */}
+
       <div className="grid grid-cols-3 w-full gap-4 pr-6 mt-8 flex-wrap">
         <div className="h-56 bg-[#9BAC65] rounded-lg flex flex-col p-6 shadow-xl">
           <div className="font-medium text-xl">Units Consumed:</div>
           <div className="w-full h-full flex justify-center items-center gap-2">
-            <div className="text-8xl font-bold">246</div>
+            <div className="text-8xl font-bold">{unitsConsumed}</div>
             <div className="text-2xl">kwh</div>
           </div>
         </div>
         <div className="h-56 bg-[#F5B8DA] rounded-lg flex flex-col p-6 shadow-xl">
           <div className="font-medium text-xl">Total Cost:</div>
           <div className="w-full h-full flex justify-center items-center gap-2">
-            <div className="text-8xl font-bold">2042</div>
+            <div className="text-8xl font-bold">
+              {calculateBillFromUnitsConsumed(unitsConsumed)}
+            </div>
             <div className="text-2xl">₹</div>
           </div>
         </div>
@@ -69,7 +110,9 @@ const EnergyMonitor = () => {
             <div className="text-2xl">₹</div>
           </div>
         </div>
+
         <Chart />
+
         <div className="h-full bg-[#D9D9D9] rounded-lg flex flex-col p-6 shadow-xl">
           <div className="font-medium text-xl">Alerts:</div>
           <div className="w-full h-full flex justify-center items-center gap-2">

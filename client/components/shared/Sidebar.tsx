@@ -1,12 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import {
-  LayoutDashboardIcon,
-  Receipt,
-  ChartNoAxesColumn,
-  LogOutIcon,
-} from "lucide-react";
+import { LayoutDashboardIcon, Receipt, LogOutIcon, User } from "lucide-react";
 import Link from "next/link";
 
 const Sidebar = () => {
@@ -19,14 +14,14 @@ const Sidebar = () => {
       link: "/",
     },
     {
-      icon: <ChartNoAxesColumn />,
-      name: "Reports",
-      link: "/reports",
-    },
-    {
       icon: <Receipt />,
       name: "Billing",
       link: "/billing",
+    },
+    {
+      icon: <User />,
+      name: "Profile",
+      link: "/profile",
     },
   ];
 

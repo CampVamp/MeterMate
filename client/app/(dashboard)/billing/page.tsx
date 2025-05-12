@@ -23,8 +23,6 @@ type BillingEntry = {
 
 const Billing = () => {
   const { isConnected } = useWebSocketContext();
-  const [selectedReceipt, setSelectedReceipt] = useState<any | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
 
   const billingData = [
     { month: "Jun-July", units: 843, cost: 5222 },
@@ -42,16 +40,6 @@ const Billing = () => {
   const avgCost = Math.round(
     billingData.reduce((acc, cur) => acc + cur.cost, 0) / billingData.length
   );
-
-  const openModal = (receipt: any) => {
-    setSelectedReceipt(receipt);
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-    setSelectedReceipt(null);
-  };
 
   const handlePrint = (entry: BillingEntry) => {
     const printWindow = window.open("", "_blank");
