@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useWebSocketContext } from "@/app/contexts/WebSocketContext";
 import StatusIndicator from "@/components/dashboard/StatusIndicator";
 import { ReceiptText } from "lucide-react";
