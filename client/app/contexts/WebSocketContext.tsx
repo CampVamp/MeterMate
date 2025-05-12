@@ -1,9 +1,15 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 
+interface SocketData {
+  unitsConsumed: number;
+  totalCost: number;
+}
+
 interface WebSocketContextType {
   socket: WebSocket | null;
-  data: any;
+  data: SocketData;
+  isConnected: boolean;
 }
 
 const WebSocketContext = createContext<WebSocketContextType | null>(null);
@@ -14,7 +20,11 @@ export const WebSocketProvider = ({
   children: React.ReactNode;
 }) => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<SocketData>({
+    unitsConsumed: 0,
+    totalCost: 0,
+  });
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     let ws: WebSocket;
@@ -28,6 +38,7 @@ export const WebSocketProvider = ({
       ws.onopen = () => {
         console.log("WebSocket connected");
         setSocket(ws);
+        setIsConnected(true);
       };
 
       ws.onmessage = (event) => {
@@ -46,6 +57,7 @@ export const WebSocketProvider = ({
       ws.onclose = () => {
         console.log("WebSocket disconnected, attempting reconnect...");
         setSocket(null);
+        setIsConnected(false);
         reconnectTimeout = setTimeout(connect, 3000);
       };
     };
@@ -61,7 +73,7 @@ export const WebSocketProvider = ({
   }, []);
 
   return (
-    <WebSocketContext.Provider value={{ socket, data }}>
+    <WebSocketContext.Provider value={{ socket, data, isConnected }}>
       {children}
     </WebSocketContext.Provider>
   );
