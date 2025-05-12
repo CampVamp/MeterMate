@@ -46,6 +46,7 @@ const EnergyMonitor = () => {
   const router = useRouter();
 
   const [unitsConsumed, setUnitsConsumed] = useState<number>(242);
+  const [previousUnits, setPreviousUnits] = useState<number | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -55,9 +56,11 @@ const EnergyMonitor = () => {
   }, [router]);
 
   useEffect(() => {
-    if (isConnected && data) {
-      // Only update when meter is connected
-      setUnitsConsumed((prev) => prev + (data.unitsConsumed ?? 0));
+    if (isConnected && data?.unitsConsumed !== undefined) {
+      if (data.unitsConsumed !== previousUnits) {
+        setUnitsConsumed((prev) => prev + data.unitsConsumed);
+        setPreviousUnits(data.unitsConsumed);
+      }
     }
   }, [data, isConnected]);
 
@@ -66,6 +69,10 @@ const EnergyMonitor = () => {
     email: "ajayramsaravanan4@gmail.com",
     profilePic: "https://api.dicebear.com/7.x/initials/svg?seed=Ajay+Ram",
   };
+
+  const currentDay = new Date().getDate();
+  const projectedUnits = (unitsConsumed / currentDay) * 30;
+  const projectedCost = calculateBillFromUnitsConsumed(projectedUnits);
 
   return (
     <div className="text-[#121212] w-full h-full flex flex-col py-8">
@@ -106,7 +113,7 @@ const EnergyMonitor = () => {
         <div className="h-56 bg-[#D9D9D9] rounded-lg flex flex-col p-6 shadow-xl">
           <div className="font-medium text-xl">Projected Cost:</div>
           <div className="w-full h-full flex justify-center items-center gap-2">
-            <div className="text-8xl font-bold">4500</div>
+            <div className="text-8xl font-bold">{projectedCost.toFixed(1)}</div>
             <div className="text-2xl">₹</div>
           </div>
         </div>

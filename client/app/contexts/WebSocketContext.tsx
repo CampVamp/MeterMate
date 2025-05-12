@@ -29,6 +29,8 @@ export const WebSocketProvider = ({
   useEffect(() => {
     let ws: WebSocket;
     let reconnectTimeout: NodeJS.Timeout;
+    let lastMessageTime = Date.now();
+    let heartbeatInterval: NodeJS.Timeout;
 
     const connect = () => {
       if (socket) return; // Prevent multiple connections
@@ -39,12 +41,21 @@ export const WebSocketProvider = ({
         console.log("WebSocket connected");
         setSocket(ws);
         setIsConnected(true);
+        heartbeatInterval = setInterval(() => {
+          const now = Date.now();
+          if (now - lastMessageTime > 5000) {
+            setIsConnected(false);
+          } else {
+            setIsConnected(true);
+          }
+        }, 3000);
       };
 
       ws.onmessage = (event) => {
         try {
           const { broadcast } = JSON.parse(event.data);
           setData(broadcast);
+          lastMessageTime = Date.now();
         } catch (error) {
           console.error("Invalid WebSocket data:", error);
         }
@@ -66,6 +77,7 @@ export const WebSocketProvider = ({
 
     return () => {
       clearTimeout(reconnectTimeout);
+      clearInterval(heartbeatInterval);
       if (ws && ws.readyState === WebSocket.OPEN) {
         ws.close();
       }
