@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useWebSocketContext } from "@/app/contexts/WebSocketContext";
 import StatusIndicator from "@/components/dashboard/StatusIndicator";
-import { FaReceipt } from "react-icons/fa";
+import { ReceiptText } from "lucide-react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa6";
 import {
   Dialog,
@@ -128,13 +128,13 @@ const Billing = () => {
 
       {/* Billing Table */}
       <div className="overflow-x-auto mt-6">
-        <table className="min-w-full text-left border-separate border-spacing-y-0">
+        <table className="w-full text-left border-collapse">
           <thead>
             <tr className="text-sm text-gray-600 border-b border-gray-300">
-              <th className="py-2">Month</th>
-              <th className="py-2">Units consumed</th>
-              <th className="py-2">Cost</th>
-              <th className="py-2">Receipt</th>
+              <th className="py-2 text-xl font-bold">Month</th>
+              <th className="py-2 text-xl font-bold">Units consumed</th>
+              <th className="py-2 text-xl font-bold">Cost</th>
+              <th className="py-2 text-xl font-bold">Receipt</th>
             </tr>
           </thead>
           <tbody>
@@ -145,7 +145,10 @@ const Billing = () => {
                 idx > 0 && entry.cost > billingData[idx - 1].cost;
 
               return (
-                <tr key={idx} className="border-collapse text-sm">
+                <tr
+                  key={idx}
+                  className="border-t border-b border-[#E2E2E2] text-xl font-semibold text-gray-800"
+                >
                   <td className="py-3 px-4">{entry.month}</td>
                   <td className="py-3 px-4">{entry.units}</td>
                   <td className="py-3 px-4 flex items-center gap-2">
@@ -160,7 +163,9 @@ const Billing = () => {
                   <td className="py-3 px-4">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <FaReceipt className="text-purple-600 cursor-pointer hover:text-purple-800" />
+                        <div className="bg-[#F5B8DA] w-fit p-2 rounded-xl cursor-pointer hover:bg-[#F5B8DA]/80">
+                          <ReceiptText />
+                        </div>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-md">
                         <DialogHeader>
