@@ -1,7 +1,5 @@
 "use client";
 
-import { useWebSocketContext } from "@/app/contexts/WebSocketContext";
-import StatusIndicator from "@/components/dashboard/StatusIndicator";
 import { ReceiptText } from "lucide-react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa6";
 import {
@@ -21,8 +19,6 @@ type BillingEntry = {
 };
 
 const Billing = () => {
-  const { isConnected } = useWebSocketContext();
-
   const billingData = [
     { month: "Jun-July", units: 843, cost: 5222 },
     { month: "Aug-Sep", units: 1200, cost: 9180 },
@@ -93,12 +89,6 @@ const Billing = () => {
 
   return (
     <div className="text-[#121212] w-full h-full flex flex-col gap-8 p-8">
-      {/* Header */}
-      <div className="flex items-center justify-between text-3xl font-medium">
-        <StatusIndicator isConnected={isConnected} />
-        <div className="w-10 h-10 bg-stone-500 rounded-full"></div>
-      </div>
-
       {/* Summary Cards */}
       <div className="flex gap-6">
         <div className="bg-pink-200 px-6 py-4 rounded-xl shadow-md w-1/2 h-36">

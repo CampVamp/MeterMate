@@ -70,7 +70,7 @@ export const WebSocketProvider = ({
         ws.close();
       }
     };
-  }, [socket]);
+  }, []);
 
   return (
     <WebSocketContext.Provider value={{ socket, data, isConnected }}>

@@ -3,12 +3,8 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import StatusIndicator from "@/components/dashboard/StatusIndicator";
-import { useWebSocketContext } from "@/app/contexts/WebSocketContext";
 
 const Profile = () => {
-  const { isConnected } = useWebSocketContext();
-
   const user = {
     name: "Ajay Ram",
     email: "ajayramsaravanan4@gmail.com",
@@ -37,9 +33,6 @@ const Profile = () => {
 
   return (
     <div className="text-[#121212] w-full h-full flex flex-col gap-8 p-8">
-      <div className="flex items-center justify-between text-3xl font-medium">
-        <StatusIndicator isConnected={isConnected} />
-      </div>
       <div className="max-w-5xl mx-auto text-[#121212]">
         <Card className="shadow-sm border">
           <CardHeader className="flex items-center gap-4">

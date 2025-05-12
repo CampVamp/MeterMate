@@ -90,7 +90,7 @@ const EnergyMonitor = () => {
         <div className="h-56 bg-[#9BAC65] rounded-lg flex flex-col p-6 shadow-xl">
           <div className="font-medium text-xl">Units Consumed:</div>
           <div className="w-full h-full flex justify-center items-center gap-2">
-            <div className="text-8xl font-bold">{unitsConsumed}</div>
+            <div className="text-8xl font-bold">{unitsConsumed.toFixed(1)}</div>
             <div className="text-2xl">kwh</div>
           </div>
         </div>
@@ -98,7 +98,7 @@ const EnergyMonitor = () => {
           <div className="font-medium text-xl">Total Cost:</div>
           <div className="w-full h-full flex justify-center items-center gap-2">
             <div className="text-8xl font-bold">
-              {calculateBillFromUnitsConsumed(unitsConsumed)}
+              {calculateBillFromUnitsConsumed(unitsConsumed).toFixed(1)}
             </div>
             <div className="text-2xl">₹</div>
           </div>
